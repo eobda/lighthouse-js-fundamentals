@@ -3,10 +3,16 @@ const judgeVegetable = function (vegetables, metric) {
   let judgement = 0;
   let submitter = '';
 
+  // iterate over given array
   for (let vegetable of vegetables) {
-    if (vegetable.metric > judgement) {
-      judgement = vegetable.metric;
-      submitter = vegetable.submitter;
+    // check if given metric is included in the object's keys
+    if (Object.keys(vegetable).includes(metric)) {
+      // updates the judgement counter if the object's key value is higher
+      if (vegetable[metric] > judgement) {
+        judgement = vegetable[metric];
+        // updates the submitter with the highest key value for given metric
+        submitter = vegetable.submitter;
+      }
     }
   }
 
