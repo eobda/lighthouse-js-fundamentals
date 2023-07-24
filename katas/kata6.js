@@ -14,51 +14,33 @@ There may be multiple available spots for a particular vehicle. It does not matt
 
 const whereCanIPark = function (spots, vehicle) {
 
-  let parking = [0, 0];
-  let available = false;
-
   // loop over rows
   for (let y = 0; y < spots.length; y++) {
 
     // loop over columns
     for (let x = 0; x < spots[y].length; x++) {
-      // if ((vehicle === 'small' && spots[y][x] === 'S') || (vehicle === 'small' && spots[y][x] === 'R') || (vehicle === 'regular' && spots[y][x] === 'R') || (vehicle === 'motorcycle' && spots[y][x] === 'S') || (vehicle === 'motorcycle' && spots[y][x] === 'R') || (vehicle === 'motorcycle' && spots[y][x] === 'M')) {
-      //   parking[0] = x;
-      //   parking[1] = y;
-      //   available = true;
-      // }
 
       switch (vehicle) {
         case 'small':
           if (spots[y][x] === 'S' || spots[y][x] === 'R') {
-            parking[0] = x;
-            parking[1] = y;
-            available = true;
+            return [x, y];
           }
           break;
         case 'regular':
           if (spots[y][x] === 'R') {
-            parking[0] = x;
-            parking[1] = y;
-            available = true;
+            return [x, y];
           }
           break;
         case 'motorcycle':
           if (spots[y][x] === 'S' || spots[y][x] === 'R' || spots[y][x] === 'M') {
-            parking[0] = x;
-            parking[1] = y;
-            available = true;
+            return [x, y];
           }
           break;
       }
     }
   }
 
-  if (available) {
-    return parking;
-  } else {
-    return false;
-  }
+  return false;
 };
 
 console.log(whereCanIPark(
