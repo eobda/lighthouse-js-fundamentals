@@ -27,66 +27,86 @@ const makeCase = function(input, caseParam) {
   let words = input.split(' ');
   let output = '';
 
-  // group these together?
+  // filters input through consecutive casing styles
   output = joinCasing(words, caseParam);
   output = vowelConst(output, caseParam);
+  output = upperLower(output, caseParam);
 
   return output;
 }
 
-const joinCasing = function (words, caseParam) {
+const joinCasing = function (wordsArray, caseParam) {
   let output = '';
 
   if (caseParam.includes("camel")) {
-    output = words[0].toLowerCase();
-    if (words.length > 1) {
-      for (let i = 1; i < words.length; i++) {
-        output = output + words[i][0].toUpperCase() + words[i].slice(1);
+    output = wordsArray[0].toLowerCase();
+    if (wordsArray.length > 1) {
+      for (let i = 1; i < wordsArray.length; i++) {
+        output = output + wordsArray[i][0].toUpperCase() + wordsArray[i].slice(1);
       }
     }
   } else if (caseParam.includes("pascal")) {
-    for (let i = 0; i < words.length; i++) {
-      output = output + words[i][0].toUpperCase() + words[i].slice(1);
+    for (let i = 0; i < wordsArray.length; i++) {
+      output = output + wordsArray[i][0].toUpperCase() + wordsArray[i].slice(1);
     }
   } else if (caseParam.includes("snake")) {
-    output = words.join('_');
+    output = wordsArray.join('_');
   } else if (caseParam.includes("kebab")) {
-    output = words.join('-');
+    output = wordsArray.join('-');
   } else if (caseParam.includes("title")) {
-    output = words[0][0].toUpperCase() + words[0].slice(1);
-    if (words.length > 1) {
-      for (let i = 1; i < words.length; i++) {
-        output = output + ' ' + words[i][0].toUpperCase() + words[i].slice(1);
+    output = wordsArray[0][0].toUpperCase() + wordsArray[0].slice(1);
+    if (wordsArray.length > 1) {
+      for (let i = 1; i < wordsArray.length; i++) {
+        output = output + ' ' + wordsArray[i][0].toUpperCase() + wordsArray[i].slice(1);
       }
     }
+  } else {
+    // return array input as string
+    return wordsArray.join(' ');
   }
 
   return output;
 }
 
-const vowelConst = function (input, caseParam) {
+const vowelConst = function (string, caseParam) {
   let output = '';
 
   if (caseParam.includes("vowel")) {
-    for (let i = 0; i < input.length; i++) {
-      for (let j = 0; j < input[i].length; j++) {
-        if (input[i][j] == 'a' || input[i][j] == 'e' || input[i][j] == 'i' || input[i][j] == 'o' || input[i][j] == 'u') {
-          output += input[i][j].toUpperCase();
+    for (let i = 0; i < string.length; i++) {
+      for (let j = 0; j < string[i].length; j++) {
+        if (string[i][j] == 'a' || string[i][j] == 'e' || string[i][j] == 'i' || string[i][j] == 'o' || string[i][j] == 'u') {
+          output += string[i][j].toUpperCase();
         } else {
-          output += input[i][j].toLowerCase();          
+          output += string[i][j].toLowerCase();          
         }
       }
     }
   } else if (caseParam.includes("consonant")) {
-    for (let k = 0; k < input.length; k++) {
-      for (let l = 0; l < input[k].length; l++) {
-        if (input[k][l] == 'a' || input[k][l] == 'e' || input[k][l] == 'i' || input[k][l] == 'o' || input[k][l] == 'u') {
-          output += input[k][l].toLowerCase();
+    for (let k = 0; k < string.length; k++) {
+      for (let l = 0; l < string[k].length; l++) {
+        if (string[k][l] == 'a' || string[k][l] == 'e' || string[k][l] == 'i' || string[k][l] == 'o' || string[k][l] == 'u') {
+          output += string[k][l].toLowerCase();
         } else {
-          output += input[k][l].toUpperCase();          
+          output += string[k][l].toUpperCase();          
         }
       }
     }
+  } else {
+    return string;
+  }
+
+  return output;
+}
+
+const upperLower = function (string, caseParam) {
+  let output = '';
+
+  if (caseParam.includes("upper")) {
+    output = string.toUpperCase();
+  } else if (caseParam.includes("lower")) {
+    output = string.toLowerCase();
+  } else {
+    return string;
   }
 
   return output;
