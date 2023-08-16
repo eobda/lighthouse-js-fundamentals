@@ -11,40 +11,28 @@ The message is then coded by reading down the columns going left to right.
 const squareCode = function (message) {
   // 1. remove spaces
   let text = message.split(' ').join('');
-  let output = '';
 
   // 2. find the square root of however long the message is and round up with Math.ceil(Math.sqrt(text.length))
   let charsPerLine = Math.ceil(Math.sqrt(text.length));  
 
-  let splitArray = splitMessage(text, charsPerLine);
-  // 4. create new strings of charsPerLine length, using one character from each element of the split message array - NESTED LOOP
-  // 5. return ONE STRING with spaces between the coded strings
-
-  output = codeText(splitArray, charsPerLine);
-
-
-  return output;
+  return codeText(splitMessage(text, charsPerLine), charsPerLine);
 };
 
 // 3. split the characters into strings of whatever the square root is length
-
 const splitMessage = function (text, charsPerLine) {
   let output = [];
   let string = '';
 
   for (let x = 0; x < text.length; x++) {
     // runs the loop through the whole text
-
     if ((x + 1) % charsPerLine === 0) {
-      string = string + text[x];
-
+      string += text[x];
       // add current string to output, start "new" string
       output.push(string);
       string = '';
     } else {
-      string = string + text[x];
+      string += text[x];
     }
-
   }
   // add final string to array
   if (string !== '') {
@@ -55,13 +43,26 @@ const splitMessage = function (text, charsPerLine) {
 }
 
 const codeText = function (textArray, charsPerLine) {
-  let output = textArray;
+  let output = [];
 
   // 4. create new strings of charsPerLine length, using one character from each element of the split message array - NESTED LOOP
+
+  for (let g = 0; g < textArray.length; g++) {
+    for (let h = 0; h < charsPerLine; h++) {
+      // create array element string if it is undefined
+      if (output[h] === undefined) {
+        output[h] = '';
+      }
+
+      // check if character in element of text array is defined before adding
+      if (textArray[g][h]) {
+        output[h] += textArray[g][h];
+      }
+    }
+  }
+
   // 5. return ONE STRING with spaces between the coded strings
-
-
-  return output;
+  return output.join(' ');
 }
 
 console.log(squareCode("chill out"));
